@@ -1,0 +1,22 @@
+PODS:
+  - flmusickit (0.0.1):
+    - FlutterMacOS
+  - FlutterMacOS (1.0.0)
+
+DEPENDENCIES:
+  - flmusickit (from `Flutter/ephemeral/.symlinks/plugins/flmusickit/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
+
+EXTERNAL SOURCES:
+  flmusickit:
+    :path: Flutter/ephemeral/.symlinks/plugins/flmusickit/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
+
+SPEC CHECKSUMS:
+  flmusickit: 9ffb2a373a6b871d964073214e8dc5bcbf11e736
+  FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
+
+PODFILE CHECKSUM: 505596d150d38022472859d890f709281982e016
+
+COCOAPODS: 1.11.3
