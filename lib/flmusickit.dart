@@ -8,12 +8,12 @@ import 'flmusickit_platform_interface.dart';
 class Flmusickit implements FlmusickitPlatform {
   @override
   Future<AuthorizationStatus> connectToAppleMusic() async {
-    return await await FlmusickitPlatform.instance.connectToAppleMusic();
+    return await FlmusickitPlatform.instance.connectToAppleMusic();
   }
 
   @override
-  Future<AuthorizationStatus> getStatus() async {
-    return await FlmusickitPlatform.instance.getStatus();
+  Future<AuthorizationStatus> getAuthenticationStatus() async {
+    return await FlmusickitPlatform.instance.getAuthenticationStatus();
   }
 
   @override
@@ -70,5 +70,20 @@ class Flmusickit implements FlmusickitPlatform {
   @override
   Stream<PlayerState?>? playerStateStream() {
     return FlmusickitPlatform.instance.playerStateStream();
+  }
+
+  @override
+  bool isPaused() {
+    return FlmusickitPlatform.instance.isPaused();
+  }
+
+  @override
+  bool isPlaying() {
+    return FlmusickitPlatform.instance.isPlaying();
+  }
+
+  @override
+  bool isStopped() {
+    return FlmusickitPlatform.instance.isStopped();
   }
 }

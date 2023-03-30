@@ -30,7 +30,7 @@ abstract class FlmusickitPlatform extends PlatformInterface {
   }
 
   Future<AuthorizationStatus> connectToAppleMusic();
-  Future<AuthorizationStatus> getStatus();
+  Future<AuthorizationStatus> getAuthenticationStatus();
 
   Future<List<Playlist>?> getPlaylists();
   Future<void> playPlaylist(String playlisId);
@@ -43,4 +43,7 @@ abstract class FlmusickitPlatform extends PlatformInterface {
   Stream<Song?>? currentSongStream();
   Future<Song?> currentSong();
   Stream<PlayerState?>? playerStateStream();
+  bool isPlaying();
+  bool isPaused();
+  bool isStopped();
 }

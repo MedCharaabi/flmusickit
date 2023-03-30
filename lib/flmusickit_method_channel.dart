@@ -23,6 +23,8 @@ class MethodChannelFlmusickit implements FlmusickitPlatform {
   final songEventChannel = const EventChannel('flmusickit/song');
   final playbackChannel = const EventChannel('flmusickit/playback');
 
+  PlayerState _playerState = PlayerState.stopped;
+
   @override
   Future<AuthorizationStatus> connectToAppleMusic() async {
     final String? authenticationResult =
@@ -35,7 +37,7 @@ class MethodChannelFlmusickit implements FlmusickitPlatform {
   }
 
   @override
-  Future<AuthorizationStatus> getStatus() async {
+  Future<AuthorizationStatus> getAuthenticationStatus() async {
     final strStatus = await methodChannel.invokeMethod<String>('status');
     log("strStatus: $strStatus");
     final status = AuthorizationStatus.values.firstWhere(
@@ -150,14 +152,16 @@ class MethodChannelFlmusickit implements FlmusickitPlatform {
 
     final state = PlayerState.values[result as int];
     print("[flmusickit] playerState: $state");
+    _playerState = state;
 
     return state;
   }
 
-  Stream<PlayerState?>? _playerState;
+  Stream<PlayerState?>? _playerStateStream;
   @override
   Stream<PlayerState?>? playerStateStream() {
-    _playerState ??= playbackChannel.receiveBroadcastStream().map((event) {
+    _playerStateStream ??=
+        playbackChannel.receiveBroadcastStream().map((event) {
       Map<String, dynamic> json = {};
       for (var entry in (event as Map<Object?, Object?>).entries) {
         json[entry.key.toString()] = entry.value;
@@ -170,10 +174,26 @@ class MethodChannelFlmusickit implements FlmusickitPlatform {
       if (eventData.type == EventType.playerState) {
         final state = PlayerState.values[eventData.data as int];
         print("[flmusickit] new playerState: $state");
+        _playerState = state;
         return state;
       }
     });
 
-    return _playerState;
+    return _playerStateStream;
+  }
+
+  @override
+  bool isPaused() {
+    return _playerState == PlayerState.paused;
+  }
+
+  @override
+  bool isPlaying() {
+    return _playerState == PlayerState.playing;
+  }
+
+  @override
+  bool isStopped() {
+    return _playerState == PlayerState.stopped;
   }
 }
